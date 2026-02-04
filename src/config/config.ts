@@ -120,6 +120,9 @@ export class Config {
     return process.env.GEMINI_API_KEY ?? process.env.API_KEY;
   }
 
+  get groqApiKey(): string | undefined {
+    return process.env.GROQ_API_KEY ?? process.env.API_KEY;
+  }
 
   get baseUrl(): string | undefined {
     return process.env.BASE_URL;
@@ -145,6 +148,7 @@ export class Config {
     const errors: string[] = [];
 
     if (!["gemini"].includes(this.provider)) {
+    if (!["gemini", "groq"].includes(this.provider)) {
       errors.push(`Unsupported provider: ${this.provider}`);
     }
 
@@ -152,6 +156,9 @@ export class Config {
       errors.push("No Gemini API key found. Set GEMINI_API_KEY (or API_KEY) environment variable");
     }
 
+    if (this.provider === "groq" && !this.groqApiKey) {
+      errors.push("No Groq API key found. Set GROQ_API_KEY (or API_KEY) environment variable");
+    }
 
     if (!this.cwd || !path.isAbsolute(this.cwd)) {
       errors.push(`Working directory is not valid: ${this.cwd}`);
@@ -181,6 +188,11 @@ export class Config {
 }
 
 export type ProviderName = "gemini";
+    };
+  }
+}
+
+export type ProviderName = "gemini" | "groq";
 
 export function validateMcpConfig(config: MCPServerConfig): void {
   const hasCommand = Boolean(config.command);

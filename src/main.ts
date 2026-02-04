@@ -190,6 +190,7 @@ class CLI {
       case "/provider":
         if (args) {
           if (["gemini"].includes(args)) {
+          if (["gemini", "groq"].includes(args)) {
             this.config.provider = args as ProviderName;
             console.log(`Provider changed to: ${args}`);
           } else {

@@ -99,6 +99,11 @@ export API_KEY=your_llm_key
 
 ```bash
 GEMINI_API_KEY=your_gemini_key
+- Or set provider-specific keys in `.env`:
+
+```bash
+GEMINI_API_KEY=your_gemini_key
+GROQ_API_KEY=your_groq_key
 ```
 
 - The default model is `gemini-2.5-flash-lite`. You can change it via config or `/model`.
@@ -129,6 +134,7 @@ npm run dev -- "Summarize the repo"
 
 ```
 /provider gemini
+/provider groq
 ```
 
 ### Build

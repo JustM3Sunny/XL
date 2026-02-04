@@ -26,6 +26,7 @@
     "duck-duck-scrape": "^2.2.4",
     "env-paths": "^3.0.0",
     "fast-glob": "^3.3.2",
+    "openai": "^4.73.1",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
