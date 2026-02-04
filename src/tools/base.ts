@@ -41,7 +41,11 @@ export class UnifiedFileDiff implements FileDiff {
 
     const oldLines = this.oldContent.split("\n");
     const newLines = this.newContent.split("\n");
-    const diff = diffLines(oldLines.join("\n"), newLines.join("\n"));
+    const diff = diffLines(oldLines.join("\n"), newLines.join("\n")) as Array<{
+      added?: boolean;
+      removed?: boolean;
+      value: string;
+    }>;
 
     const header = `--- ${oldName}\n+++ ${newName}\n`;
     const chunks = diff

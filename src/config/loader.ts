@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import envPaths from "env-paths";
 import toml from "@iarna/toml";
-import { Config, ConfigOptions, validateMcpConfig } from "./config.js";
+import { Config, ConfigOptions, validateMcpConfig, ProviderName } from "./config.js";
 import { ConfigError } from "../utils/errors.js";
 
 const CONFIG_FILE_NAME = "config.toml";
@@ -80,6 +80,7 @@ function normalizeConfig(rawConfig: Record<string, unknown>, cwd: string): Confi
   }
 
   return {
+    provider: (rawConfig.provider as ProviderName) ?? undefined,
     model: {
       name: (model.name as string) ?? undefined,
       temperature: (model.temperature as number) ?? undefined,

@@ -86,11 +86,20 @@ npm install
 
 ## Configuration
 
-- Set the API key in your environment:
+- Set provider-specific keys in your environment (Gemini is default):
 
 ```bash
-export API_KEY=your_openai_or_router_key
+export API_KEY=your_llm_key
 ```
+
+- Or set provider-specific keys in `.env`:
+
+```bash
+GEMINI_API_KEY=your_gemini_key
+GROQ_API_KEY=your_groq_key
+```
+
+- The default model is `gemini-2.5-flash-lite`. You can change it via config or `/model`.
 
 - Optional: Set a custom API base URL (e.g., OpenRouter):
 
@@ -112,6 +121,13 @@ npm run dev
 
 ```bash
 npm run dev -- "Summarize the repo"
+```
+
+### Provider selection
+
+```
+/provider gemini
+/provider groq
 ```
 
 ### Build
@@ -136,9 +152,10 @@ npm test
 
 ```toml
 cwd = "."
+provider = "gemini"
 
 [model]
-name = "mistralai/devstral-2512:free"
+name = "gemini-2.5-flash-lite"
 temperature = 1.0
 context_window = 256000
 

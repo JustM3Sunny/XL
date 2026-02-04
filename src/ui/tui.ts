@@ -178,6 +178,7 @@ Commands
 - /exit or /quit - Exit the agent
 - /clear - Clear conversation history
 - /config - Show current configuration
+- /provider <name> - Change the provider
 - /model <name> - Change the model
 - /approval <mode> - Change approval mode
 - /stats - Show session statistics

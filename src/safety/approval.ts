@@ -63,9 +63,13 @@ export function isSafeCommand(command: string): boolean {
 export class ApprovalManager {
   approvalPolicy: ApprovalPolicy;
   cwd: string;
-  confirmationCallback?: (confirmation: ToolConfirmation) => boolean;
+  confirmationCallback?: (confirmation: ToolConfirmation) => boolean | Promise<boolean>;
 
-  constructor(approvalPolicy: ApprovalPolicy, cwd: string, confirmationCallback?: (confirmation: ToolConfirmation) => boolean) {
+  constructor(
+    approvalPolicy: ApprovalPolicy,
+    cwd: string,
+    confirmationCallback?: (confirmation: ToolConfirmation) => boolean | Promise<boolean>,
+  ) {
     this.approvalPolicy = approvalPolicy;
     this.cwd = cwd;
     this.confirmationCallback = confirmationCallback;
@@ -121,9 +125,9 @@ export class ApprovalManager {
     return ApprovalDecision.APPROVED;
   }
 
-  requestConfirmation(confirmation: ToolConfirmation): boolean {
+  async requestConfirmation(confirmation: ToolConfirmation): Promise<boolean> {
     if (this.confirmationCallback) {
-      return this.confirmationCallback(confirmation);
+      return await this.confirmationCallback(confirmation);
     }
 
     return true;

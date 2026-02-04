@@ -1,9 +1,10 @@
 import { Command } from "commander";
 import readline from "node:readline";
+import dotenv from "dotenv";
 import { Agent } from "./agent/agent.js";
 import { AgentEventType } from "./agent/events.js";
 import { PersistenceManager, SessionSnapshot } from "./agent/persistence.js";
-import { Config, ApprovalPolicy } from "./config/config.js";
+import { Config, ApprovalPolicy, ProviderName } from "./config/config.js";
 import { loadConfig } from "./config/loader.js";
 import { TUI } from "./ui/tui.js";
 import { Session } from "./agent/session.js";
@@ -31,7 +32,7 @@ class CLI {
     this.tui.printWelcome("AI Agent", [
       `model: ${this.config.modelName}`,
       `cwd: ${this.config.cwd}`,
-      "commands: /help /config /approval /model /exit",
+      "commands: /help /config /approval /provider /model /exit",
     ]);
 
     const agent = new Agent(this.config, (confirmation) => this.tui.handleConfirmation(confirmation));
@@ -157,6 +158,7 @@ class CLI {
         break;
       case "/config":
         console.log("Current Configuration");
+        console.log(`  Provider: ${this.config.provider}`);
         console.log(`  Model: ${this.config.modelName}`);
         console.log(`  Temperature: ${this.config.temperature}`);
         console.log(`  Approval: ${this.config.approval}`);
@@ -182,6 +184,18 @@ class CLI {
           }
         } else {
           console.log(`Current approval policy: ${this.config.approval}`);
+        }
+        break;
+      case "/provider":
+        if (args) {
+          if (["gemini", "groq"].includes(args)) {
+            this.config.provider = args as ProviderName;
+            console.log(`Provider changed to: ${args}`);
+          } else {
+            console.log(`Incorrect provider: ${args}`);
+          }
+        } else {
+          console.log(`Current provider: ${this.config.provider}`);
         }
         break;
       case "/stats": {
@@ -331,6 +345,7 @@ class CLI {
 }
 
 async function main() {
+  dotenv.config();
   const program = new Command();
   program.argument("[prompt]", "Prompt to send to the agent");
   program.option("-c, --cwd <path>", "Current working directory");

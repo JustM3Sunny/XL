@@ -9,6 +9,7 @@ import { WebSearchTool } from "./webSearch.js";
 import { WebFetchTool } from "./webFetch.js";
 import { MemoryTool } from "./memory.js";
 import { TodosTool } from "./todo.js";
+import { StringTools } from "./stringTools.js";
 
 export function getAllBuiltinTools() {
   return [
@@ -23,6 +24,7 @@ export function getAllBuiltinTools() {
     WebFetchTool,
     MemoryTool,
     TodosTool,
+    StringTools,
   ];
 }
 
@@ -37,3 +39,4 @@ export { WebSearchTool } from "./webSearch.js";
 export { WebFetchTool } from "./webFetch.js";
 export { MemoryTool } from "./memory.js";
 export { TodosTool } from "./todo.js";
+export { StringTools } from "./stringTools.js";

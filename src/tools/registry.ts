@@ -94,7 +94,7 @@ export class ToolRegistry {
           return result;
         }
         if (decision === ApprovalDecision.NEEDS_CONFIRMATION) {
-          const approved = approvalManager.requestConfirmation(confirmation);
+          const approved = await approvalManager.requestConfirmation(confirmation);
           if (!approved) {
             const result = ToolResultFactory.error("User rejected the operation");
             await hookSystem.triggerAfterTool(name, params, result);

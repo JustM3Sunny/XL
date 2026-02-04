@@ -107,6 +107,7 @@ export class EditTool extends Tool {
     if (occurrenceCount > 1 && !params.replace_all) {
       return ToolResultFactory.error(
         `old_string found ${occurrenceCount} times in ${target}. Either: \n1. Provide more context to make the match unique or\n2. Set replace_all=true to replace all occurrences`,
+        "",
         { metadata: { occurrence_count: occurrenceCount } },
       );
     }

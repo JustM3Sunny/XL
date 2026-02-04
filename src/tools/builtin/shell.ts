@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { Tool, ToolConfirmation, ToolInvocation, ToolKind, ToolResultFactory } from "../base.js";
+import { Tool, ToolConfirmation, ToolInvocation, ToolKind, ToolResult, ToolResultFactory } from "../base.js";
 
 const BLOCKED_COMMANDS = [
   "rm -rf /",
@@ -96,7 +96,7 @@ export class ShellTool extends Tool {
     const env = this.buildEnvironment();
     const timeoutSec = params.timeout ?? 120;
 
-    return new Promise((resolve) => {
+    return new Promise<ToolResult>((resolve) => {
       const child = spawn(command, {
         shell: true,
         cwd,

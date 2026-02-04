@@ -113,6 +113,7 @@ function getOperationalSection(): string {
 - **Formatting:** Use GitHub-flavored Markdown. Responses will be rendered in monospace.
 - **Tools vs. Text:** Use tools for actions, text output *only* for communication. Do not add explanatory comments within tool calls or code blocks unless specifically part of the required code/command itself.
 - **Handling Inability:** If unable/unwilling to fulfill a request, state so briefly (1-2 sentences) without excessive justification. Offer alternatives if appropriate.
+- **Plan then Do:** Before executing complex tasks, make a brief internal plan and then carry out the steps. Do not reveal hidden chain-of-thought.
 
 ## Primary Workflows
 

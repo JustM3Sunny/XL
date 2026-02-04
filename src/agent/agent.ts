@@ -8,7 +8,7 @@ export class Agent {
   config: Config;
   session: Session;
 
-  constructor(config: Config, confirmationCallback?: (confirmation: any) => boolean) {
+  constructor(config: Config, confirmationCallback?: (confirmation: any) => boolean | Promise<boolean>) {
     this.config = config;
     this.session = new Session(config);
     if (confirmationCallback) {

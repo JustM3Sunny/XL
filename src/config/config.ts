@@ -49,6 +49,7 @@ export interface HookConfig {
 }
 
 export interface ConfigOptions {
+  provider?: ProviderName;
   model?: Partial<ModelConfig>;
   cwd?: string;
   shellEnvironment?: Partial<ShellEnvironmentPolicy>;
@@ -64,6 +65,7 @@ export interface ConfigOptions {
 }
 
 export class Config {
+  provider: ProviderName;
   model: ModelConfig;
   cwd: string;
   shellEnvironment: ShellEnvironmentPolicy;
@@ -79,11 +81,12 @@ export class Config {
 
   constructor(options: ConfigOptions = {}) {
     const modelDefaults: ModelConfig = {
-      name: "mistralai/devstral-2512:free",
+      name: "gemini-2.5-flash-lite",
       temperature: 1,
       contextWindow: 256_000,
     };
 
+    this.provider = options.provider ?? "gemini";
     this.model = {
       ...modelDefaults,
       ...options.model,
@@ -110,6 +113,14 @@ export class Config {
     return process.env.API_KEY;
   }
 
+  get geminiApiKey(): string | undefined {
+    return process.env.GEMINI_API_KEY ?? process.env.API_KEY;
+  }
+
+  get groqApiKey(): string | undefined {
+    return process.env.GROQ_API_KEY ?? process.env.API_KEY;
+  }
+
   get baseUrl(): string | undefined {
     return process.env.BASE_URL;
   }
@@ -133,8 +144,16 @@ export class Config {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (!this.apiKey) {
-      errors.push("No API key found. Set API_KEY environment variable");
+    if (!["gemini", "groq"].includes(this.provider)) {
+      errors.push(`Unsupported provider: ${this.provider}`);
+    }
+
+    if (this.provider === "gemini" && !this.geminiApiKey) {
+      errors.push("No Gemini API key found. Set GEMINI_API_KEY (or API_KEY) environment variable");
+    }
+
+    if (this.provider === "groq" && !this.groqApiKey) {
+      errors.push("No Groq API key found. Set GROQ_API_KEY (or API_KEY) environment variable");
     }
 
     if (!this.cwd || !path.isAbsolute(this.cwd)) {
@@ -146,6 +165,7 @@ export class Config {
 
   toJSON(): Record<string, unknown> {
     return {
+      provider: this.provider,
       model: this.model,
       cwd: this.cwd,
       shellEnvironment: this.shellEnvironment,
@@ -161,6 +181,8 @@ export class Config {
     };
   }
 }
+
+export type ProviderName = "gemini" | "groq";
 
 export function validateMcpConfig(config: MCPServerConfig): void {
   const hasCommand = Boolean(config.command);
