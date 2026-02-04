@@ -10,6 +10,10 @@ import { WebFetchTool } from "./webFetch.js";
 import { MemoryTool } from "./memory.js";
 import { TodosTool } from "./todo.js";
 import { StringTools } from "./stringTools.js";
+import { DeleteFileTool } from "./deleteFile.js";
+import { MoveFileTool } from "./moveFile.js";
+import { CopyFileTool } from "./copyFile.js";
+import { MakeDirTool } from "./makeDir.js";
 
 export function getAllBuiltinTools() {
   return [
@@ -25,6 +29,10 @@ export function getAllBuiltinTools() {
     MemoryTool,
     TodosTool,
     StringTools,
+    DeleteFileTool,
+    MoveFileTool,
+    CopyFileTool,
+    MakeDirTool,
   ];
 }
 
@@ -40,3 +48,7 @@ export { WebFetchTool } from "./webFetch.js";
 export { MemoryTool } from "./memory.js";
 export { TodosTool } from "./todo.js";
 export { StringTools } from "./stringTools.js";
+export { DeleteFileTool } from "./deleteFile.js";
+export { MoveFileTool } from "./moveFile.js";
+export { CopyFileTool } from "./copyFile.js";
+export { MakeDirTool } from "./makeDir.js";

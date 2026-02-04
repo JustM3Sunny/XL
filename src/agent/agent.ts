@@ -21,6 +21,14 @@ export class Agent {
     yield AgentEventFactory.agentStart(message);
     this.session.contextManager.addUserMessage(message);
 
+    if (this.config.autoplan) {
+      const plan = await this.generatePlan(message);
+      if (plan) {
+        this.session.contextManager.addAssistantMessage(plan);
+        yield AgentEventFactory.textComplete(plan);
+      }
+    }
+
     let finalResponse: string | null = null;
 
     for await (const event of this.agenticLoop()) {
@@ -32,6 +40,36 @@ export class Agent {
 
     await this.session.hookSystem.triggerAfterAgent(message, finalResponse ?? undefined);
     yield AgentEventFactory.agentEnd(finalResponse ?? undefined);
+  }
+
+  private async generatePlan(message: string): Promise<string | null> {
+    const planningMessages = [
+      {
+        role: "system",
+        content:
+          "You are a planning assistant for an autonomous coding agent. Provide a brief, actionable plan (3-7 bullets) without chain-of-thought or hidden reasoning.",
+      },
+      {
+        role: "user",
+        content: message,
+      },
+    ];
+
+    let plan = "";
+    for await (const event of this.session.client.chatCompletion(planningMessages, undefined, false)) {
+      if (event.type === StreamEventType.ERROR) {
+        return null;
+      }
+      if (event.type === StreamEventType.MESSAGE_COMPLETE && event.textDelta?.content) {
+        plan += event.textDelta.content;
+      }
+    }
+
+    if (!plan.trim()) {
+      return null;
+    }
+
+    return `Plan:\\n${plan.trim()}`;
   }
 
   private async *agenticLoop() {

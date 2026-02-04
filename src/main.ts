@@ -165,6 +165,7 @@ class CLI {
         console.log(`  Working Dir: ${this.config.cwd}`);
         console.log(`  Max Turns: ${this.config.maxTurns}`);
         console.log(`  Hooks Enabled: ${this.config.hooksEnabled}`);
+        console.log(`  Autoplan: ${this.config.autoplan}`);
         break;
       case "/model":
         if (args) {

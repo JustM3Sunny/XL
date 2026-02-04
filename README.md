@@ -10,16 +10,19 @@ A Node.js AI agent that can execute tasks using tools, manage multi-turn convers
 - Streaming text responses
 - Multi-turn conversations with tool calling
 - Configurable model settings and temperature
+- Built-in planning step (plan then do)
 
 ### Built-in Tools
 
 - File operations: read, write, edit files
+- File management: copy, move, delete, create directories
 - Directory operations: list directories, search with glob patterns
 - Text search: grep for pattern matching
 - Shell execution: run shell commands
 - Web access: search and fetch web content
 - Memory: store and retrieve information
 - Todo: manage task lists
+- String manipulation utilities
 
 ### Context Management
 
@@ -151,6 +154,7 @@ npm test
 ```toml
 cwd = "."
 provider = "gemini"
+autoplan = true
 
 [model]
 name = "gemini-2.5-flash-lite"

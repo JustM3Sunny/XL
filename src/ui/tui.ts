@@ -57,6 +57,10 @@ export class TUI {
       glob: ["path", "pattern"],
       todos: ["id", "action", "content"],
       memory: ["action", "key", "value"],
+      copy_file: ["source", "destination", "overwrite", "recursive"],
+      move_file: ["source", "destination", "overwrite"],
+      delete_file: ["path", "recursive"],
+      make_dir: ["path"],
     };
 
     const order = preferred[toolName] ?? [];
