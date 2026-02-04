@@ -101,6 +101,7 @@ function normalizeConfig(rawConfig: Record<string, unknown>, cwd: string): Confi
     developerInstructions: (rawConfig.developer_instructions as string) ?? (rawConfig.developerInstructions as string) ?? undefined,
     userInstructions: (rawConfig.user_instructions as string) ?? (rawConfig.userInstructions as string) ?? undefined,
     debug: Boolean(rawConfig.debug ?? false),
+    autoplan: Boolean(rawConfig.autoplan ?? true),
   };
 }
 

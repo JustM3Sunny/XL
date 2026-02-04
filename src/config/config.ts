@@ -62,6 +62,7 @@ export interface ConfigOptions {
   developerInstructions?: string | null;
   userInstructions?: string | null;
   debug?: boolean;
+  autoplan?: boolean;
 }
 
 export class Config {
@@ -78,6 +79,7 @@ export class Config {
   developerInstructions?: string | null;
   userInstructions?: string | null;
   debug: boolean;
+  autoplan: boolean;
 
   constructor(options: ConfigOptions = {}) {
     const modelDefaults: ModelConfig = {
@@ -107,6 +109,7 @@ export class Config {
     this.developerInstructions = options.developerInstructions ?? null;
     this.userInstructions = options.userInstructions ?? null;
     this.debug = options.debug ?? false;
+    this.autoplan = options.autoplan ?? true;
   }
 
   get apiKey(): string | undefined {
@@ -144,6 +147,7 @@ export class Config {
   validate(): string[] {
     const errors: string[] = [];
 
+    if (!["gemini"].includes(this.provider)) {
     if (!["gemini", "groq"].includes(this.provider)) {
       errors.push(`Unsupported provider: ${this.provider}`);
     }
@@ -178,6 +182,12 @@ export class Config {
       developerInstructions: this.developerInstructions,
       userInstructions: this.userInstructions,
       debug: this.debug,
+      autoplan: this.autoplan,
+    };
+  }
+}
+
+export type ProviderName = "gemini";
     };
   }
 }

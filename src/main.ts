@@ -165,6 +165,7 @@ class CLI {
         console.log(`  Working Dir: ${this.config.cwd}`);
         console.log(`  Max Turns: ${this.config.maxTurns}`);
         console.log(`  Hooks Enabled: ${this.config.hooksEnabled}`);
+        console.log(`  Autoplan: ${this.config.autoplan}`);
         break;
       case "/model":
         if (args) {
@@ -188,6 +189,7 @@ class CLI {
         break;
       case "/provider":
         if (args) {
+          if (["gemini"].includes(args)) {
           if (["gemini", "groq"].includes(args)) {
             this.config.provider = args as ProviderName;
             console.log(`Provider changed to: ${args}`);

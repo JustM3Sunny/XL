@@ -1,3 +1,8 @@
+import { GoogleGenerativeAI, Part, FunctionDeclaration } from "@google/generative-ai";
+import { Config } from "../config/config.js";
+import { StreamEvent, StreamEventType, TokenUsage, ToolCall } from "./response.js";
+
+export class LLMClient {
 import OpenAI from "openai";
 import { GoogleGenerativeAI, Part, FunctionDeclaration } from "@google/generative-ai";
 import { Config } from "../config/config.js";
@@ -45,6 +50,9 @@ export class LLMClient {
   }
 
   async close(): Promise<void> {
+    this.geminiClient = undefined;
+  }
+
     this.client = undefined;
     this.geminiClient = undefined;
   }
@@ -68,6 +76,7 @@ export class LLMClient {
     tools?: Array<Record<string, any>>,
     stream = true,
   ): AsyncGenerator<StreamEvent, void, void> {
+    yield* this.chatCompletionGemini(messages, tools, stream);
     if (this.config.provider === "gemini") {
       yield* this.chatCompletionGemini(messages, tools, stream);
       return;
@@ -273,6 +282,7 @@ export class LLMClient {
     }
   }
 
+  // OpenAI-compatible providers removed; Gemini-only runtime.
   private async *streamResponse(client: OpenAI, payload: Record<string, any>) {
     const response = await client.chat.completions.create(payload);
 
